@@ -1,6 +1,6 @@
 import React,{useEffect} from 'react'
-import Navbar_version2 from './NavbarVersion2';
-import Footer_version2 from './FooterVersion2';
+import Navbar_version2 from './Navbar_version2';
+import Footer_version2 from './Footer_version2';
 
 const Next = () => {
   useEffect(()=>{

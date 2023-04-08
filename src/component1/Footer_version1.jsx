@@ -8,10 +8,10 @@ import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import GoogleIcon from '@mui/icons-material/Google';
 import CallIcon from '@mui/icons-material/Call';
 
-function Footer() {
+function Footer_version1() {
   return (
     <AppBar position="static">
-      <Container maxWidth="xl" className="bg-gradient-to-b from-zinc-900 to-zinc-400">
+      <Container maxWidth="xl" className="bg-gradient-to-b from-slate-100 to-slate-200" style={{color:"black"}}>
         <div className="m-10 flex flex-col">
         <div className="grid grid-cols-4 mb-4 max-md:grid-cols-1">
         {/* ###### 1st Box ##### */}
@@ -20,7 +20,7 @@ function Footer() {
          <div className="font-bold">ABOUT US</div>
          <p className="">Damyant Software was incorporated in August, 2010. The company is headquartered in New Delhi, India</p>
          </div>
-         <div class="border-2 h-48 ml-4 w-0 mr-8 border-white max-md:hidden"></div>
+         <div className="border-2 h-48 ml-4 w-0 mr-8 border-white max-md:hidden"></div>
          </div>
 
          
@@ -33,7 +33,7 @@ function Footer() {
          <div className=""><EmailIcon/>info@damyant.com</div>
          </div>
          <div>
-         <div class="border-2 h-48 w-0 mr-8 border-white max-md:hidden"></div>
+         <div className="border-2 h-48 w-0 mr-8 border-white max-md:hidden"></div>
          </div>
          </div>
          
@@ -70,4 +70,4 @@ function Footer() {
     </AppBar>
   );
 }
-export default Footer;
+export default Footer_version1;
