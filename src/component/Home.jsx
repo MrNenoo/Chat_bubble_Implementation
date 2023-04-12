@@ -4,10 +4,10 @@ import FooterVersion2 from './FooterVersion2'
 
 const Home = () => {
   return (
-    <div>
+    <>
         <BacktestVersion3/>
         <FooterVersion2/>
-    </div>
+    </>
   )
 }
 

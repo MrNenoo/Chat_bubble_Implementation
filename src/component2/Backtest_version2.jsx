@@ -308,7 +308,7 @@ const Backtest_version2 = () => {
                             <div style={{ backgroundColor: intracolory }} className="rounded-l-xl h-8" onClick={() => { setintracolorn(""); setintracolory("#6BA0EE"); setintraday("Yes") }}>
                                 Yes
                             </div>
-                            <div style={{ backgroundColor: intracolorn }} className="rounded-r-xl h-8" onClick={() => { setintracolory(""); setintracolorn("#6BA0EE"); setintraday("Yes") }}>
+                            <div style={{ backgroundColor: intracolorn }} className="rounded-r-xl h-8" onClick={() => { setintracolory(""); setintracolorn("#6BA0EE"); setintraday("No") }}>
                                 No
                             </div>
                         </div>
@@ -321,7 +321,7 @@ const Backtest_version2 = () => {
                             <div style={{ backgroundColor: halty }} className="rounded-l-xl h-8" onClick={() => { sethalty("#6BA0EE"); sethaltn(""); sethalt("Yes") }}>
                                 Yes
                             </div>
-                            <div style={{ backgroundColor: haltn }} className="rounded-r-xl h-8" onClick={() => { sethaltn("#6BA0EE"); sethalty(""); sethalt("Yes") }}>
+                            <div style={{ backgroundColor: haltn }} className="rounded-r-xl h-8" onClick={() => { sethaltn("#6BA0EE"); sethalty(""); sethalt("No") }}>
                                 No
                             </div>
                         </div>
@@ -334,7 +334,7 @@ const Backtest_version2 = () => {
                             <div style={{ backgroundColor: fixedratey }} className="rounded-l-xl h-8" onClick={() => { setfixedraten(""); setfixedratey("#6BA0EE"); setFixedRate("Yes") }}>
                                 Yes
                             </div>
-                            <div style={{ backgroundColor: fixedraten }} className="rounded-r-xl h-8" onClick={() => { setfixedratey(""); setfixedraten("#6BA0EE"); setFixedRate("Yes") }}>
+                            <div style={{ backgroundColor: fixedraten }} className="rounded-r-xl h-8" onClick={() => { setfixedratey(""); setfixedraten("#6BA0EE"); setFixedRate("No") }}>
                                 No
                             </div>
                         </div>
