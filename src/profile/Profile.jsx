@@ -31,7 +31,7 @@ const Profile = () => {
   
   // Fetching the api to get the profile data
   useEffect(()=>{
-    const data={"email":localStorage.getItem('email')}
+    const data={"id":localStorage.getItem('id')}
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
@@ -101,7 +101,7 @@ const Profile = () => {
        <div className="m-3 grid grid-cols-1 shadow border-black">
         <div className="shadow rounded">
         <h1 className="text-center text-blue-400 text-xl font-bold mt-3">Running Plan Details</h1>
-      <div className="grid grid-cols-4 text-center justify-center m-10">
+      <div className="grid grid-cols-1 text-center justify-center m-10 md:grid-cols-2 lg:grid-cols-4">
         <div className="p-6 m-3 font-bold border-2 rounded border-green-500">
         <h2 className=" text-xl">Remaining Credit</h2>
           <h2 className=" text-xl">150</h2>
@@ -124,7 +124,7 @@ const Profile = () => {
 
         <div className="shadow rounded mt-10">
         <h1 className="text-center text-blue-400 text-xl font-bold mt-3">Premium Plan</h1>
-      <div className="grid grid-cols-4 text-center justify-center m-10">
+      <div className="grid grid-cols-1 text-center justify-center m-10 md:grid-cols-2 lg:grid-cols-4">
       <div className="p-6 m-3 font-bold border-2 rounded border-green-500">
           <h2 className=" text-xl">0$ for Week</h2>
           <h2 className=" text-xl">Free For One Time</h2>

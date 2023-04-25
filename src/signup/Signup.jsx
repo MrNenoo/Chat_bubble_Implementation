@@ -58,12 +58,11 @@ const Signup = () => {
                 localStorage.setItem('token', response.data.token);
                 localStorage.setItem('name',response.data.name)
                 localStorage.setItem('email',response.data.email)
-                localStorage.setItem('isAuthenticate',true)
                 setname("")
                 setemail("")
                 setnumber("")
                 setpassword("")
-                navigate('/');
+                navigate('/login');
             }
           
           })

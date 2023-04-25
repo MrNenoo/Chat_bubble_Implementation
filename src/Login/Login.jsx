@@ -46,6 +46,7 @@ const Login = () => {
                     localStorage.setItem('token', response.data.token);
                     localStorage.setItem('name', response.data.name)
                     localStorage.setItem('email', response.data.email)
+                    localStorage.setItem('id',response.data.id)
                     localStorage.setItem('isAuthenticate', true)
                     if (rememberMe) {
                         localStorage.setItem('password', password);
@@ -82,13 +83,14 @@ const Login = () => {
     }, []);
     return (
         <>
-            <Navbar />
-            <div className="flex flex-row">
+           <Navbar/>
+            <div className="flex flex-row" style={{backgroundImage:url(`${image}`)}}>
                 <About />
                 <div className="flex flex-col mt-36 ml-40">
                     <div className="text-[#3F4547] text-3xl font-bold text-center">
                         <h1>Login Here!!!</h1>
                     </div>
+                    <div className="text-center justify-center">
                     <input
                         type="text"
                         placeholder="Enter Email"
@@ -96,6 +98,8 @@ const Login = () => {
                             setemail(e.target.value);
                         }}
                     />
+                    </div>
+                    <div className="text-center justify-center">
                     <input
                         type="password"
                         placeholder="Enter Your Password"
@@ -105,13 +109,18 @@ const Login = () => {
                             setpassword(e.target.value);
                         }}
                     />
+                    </div>
+                    <div className="text-center justify-center">
                     <button className="text-[white] bg-[#0369a8] h-14 w-96 text rounded-md mt-10 ml-4 font-bold" onClick={handlesubmit} onKeyDown={(e) => {
                         if (e.keyCode === 13) { handlesubmit() }
                     }}>
                         Sign in
                     </button>
+                    </div>
                     <div className="flex flex-row mt-6 pl-6">
+                    <div className="text-center justify-center">
                         <input type="checkbox" checked={rememberMe} onChange={(e) => { setRememberMe(e.target.checked); }} />
+                       </div>
                         <div className="text-[#3F4547] pl-2">Remember Me</div>
                         <Link to='/forget_password'><div className="text-[#0369a8] pl-32">Forget Password?</div></Link>
                     </div>

@@ -270,40 +270,22 @@ const Result = (props) => {
                 <div className="overflow-y-none overflow-x-auto text-center justify-center ml-10 mr-10 mb-10">
                     <h1 className="text-center">List Of Trades</h1>
                     <table className="border-4 border-solid border-black overflow-y-none overflow-x-auto">
-                        <thead className="border-4 border-solid border-black bg-gray-600">
-                            <td className="border-2 border-solid border-collapse border-black p-2">Datetime</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">Day</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">FuturePrice</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">StrikePrice</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">Strike1</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">Start1</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">End1</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">Diff1</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">Gross_diff</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">Max_Profit</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">MaxLoss</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">Expense1</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">TotalExpense</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">Net_diff</td>
-                        </thead>
                         {
-                            Array.isArray(f) && f.map((item, key) => {
+
+                            <thead className="border-2 border-solid border-black bg-gray-600" key={f[0]}>
+                                {Object.keys(f[0]).map(key => (
+                                    <td className="border-2 border-solid border-collapse border-black p-2" key={key}>{key}</td>
+                                ))}
+                            </thead>
+                        }
+
+                        {
+                            Array.isArray(f) && f.map((item, index) => {
                                 return (
-                                    <tr className="border-2 border-solid border-black bg-white">
-                                        <td className="border-2 border-solid border-collapse border-black p-2">{item.Datetime}</td>
-                                        <td className="border-2 border-solid border-collapse border-black p-2">{item.Day}</td>
-                                        <td className="border-2 border-solid border-collapse border-black p-2">{item.FuturePrice}</td>
-                                        <td className="border-2 border-solid border-collapse border-black p-2">{item.StrikePrice}</td>
-                                        <td className="border-2 border-solid border-collapse border-black p-2">{item.Strike1}</td>
-                                        <td className="border-2 border-solid border-collapse border-black p-2">{item.Start1}</td>
-                                        <td className="border-2 border-solid border-collapse border-black p-2">{item.End1}</td>
-                                        <td className="border-2 border-solid border-collapse border-black p-2">{item.Diff1}</td>
-                                        <td className="border-2 border-solid border-collapse border-black p-2">{item['Gross_diff']}</td>
-                                        <td className="border-2 border-solid border-collapse border-black p-2">{item['Max Profit']}</td>
-                                        <td className="border-2 border-solid border-collapse border-black p-2">{item['Max Loss']}</td>
-                                        <td className="border-2 border-solid border-collapse border-black p-2">{item['Expense1']}</td>
-                                        <td className="border-2 border-solid border-collapse border-black p-2">{item['Total Expense']}</td>
-                                        <td className="border-2 border-solid border-collapse border-black p-2">{item.Net_diff}</td>
+                                    <tr className="border-2 border-solid border-black bg-white" key={item}>
+                                        {Object.keys(item).map(key => (
+                                            <td className="border-2 border-solid border-collapse border-black p-2" key={key}>{item[key]}</td>
+                                        ))}
                                     </tr>
                                 )
                             })

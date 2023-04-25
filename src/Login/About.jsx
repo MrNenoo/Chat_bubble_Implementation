@@ -3,7 +3,7 @@ import React from 'react'
 const About = () => {
     return (
         <>
-            <div className="ml-72 mb-10 p-5 shadow-2xl mt-5" style={{
+            <div className="ml-72 mb-10 p-5 shadow-2xl mt-5 max-md:hidden" style={{
                 height: "614px",
                 width: "430px"
             }}>

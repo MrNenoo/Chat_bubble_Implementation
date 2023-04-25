@@ -88,7 +88,8 @@ const BacktestVersion3 = () => {
     const [savedstrategies, setsavedstrategies] = useState([])
     const [strategyName, setstrategyName] = useState("")
     const [showstrategy, setshowstrategy] = useState(false)
-
+    const [showupdatestrategy, setshowupdatestrategy] = useState(false)
+    const [activeindex, setactiveindex] = useState("")
 
     const handlelogout = (e) => {
         e.preventDefault()
@@ -127,6 +128,168 @@ const BacktestVersion3 = () => {
         helper_function();
     }, [atm, lotarray])
 
+
+    const onshowstrategies = (data) => {
+        setleg(data[0]);
+        setlotarray1(data[1]);
+        setlegarray(data[2]);
+        setdarray(data[3]);
+        setdincrement(data[4])
+        setdincrementarray(data[5])
+        sett(data[6])
+        settarray(data[7])
+        setintraday(data[8])
+        settradesymbol(data[9])
+        setgap(data[10])
+        setstoplosslower(data[11]);
+        setstoplossupper(data[12]);
+        setstoplosssteps(data[13]);
+        setmaxprofitupper(data[14]);
+        setmaxprofitlower(data[15]);
+        setmaxprofitsteps(data[16]);
+        sethalt(data[17]);
+        setinvestment(data[18]);
+        setStartTime(data[19]);
+        setEndTime(data[20]);
+        setstartdate(data[21]);
+        setEndDate(data[22]);
+        setfirstexpirydate(data[23]);
+        setExpiryfixed(data[24]);
+        setincrementexpriy(data[25]);
+        setFixedRate(data[26]);
+        setRate(data[27]);
+        setTimeGroups(data[28]);
+        setStartTimeArray(data[29]);
+        setEndTimeArray(data[30]);
+        setFolderName(data[31]);
+        setatm(data[32])
+    }
+
+    const onHandleStrategies = async () => {
+        setshowstrategy(false)
+        const inputdata = {
+            "name": strategyName, "array": [leg, lotarray1, legarray, darray, dIncrement,
+                dIncrementarray, t, tarray, intraday,
+                tradesymbol, gap, stoplosslower, stoplossupper, stoplosssteps,
+                maxprofitupper, maxprofitlower, maxprofitsteps,
+                halt, investment, starttime, endtime, startdate, enddate, firstexpirydate,
+                expiryFixed, incrementexpiry, fixedRate, rate,
+                timeGroups, startTimeArray, endTimeArray, foldername, atm]
+        }
+
+        setsavedstrategies([...savedstrategies, inputdata]);
+        const data = { "id": localStorage.getItem('id'), "array": inputdata }
+        let config = {
+            method: 'patch',
+            maxBodyLength: Infinity,
+            url: 'http://127.0.0.1:5000/add/strategies',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: data
+        };
+        try {
+            const response = await axios.request(config)
+            console.log(JSON.stringify(response.data))
+            setstrategyName("")
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    useEffect(() => {
+        onGettingStrategies()
+    }, [])
+
+    const onGettingStrategies = () => {
+
+        let data = JSON.stringify({
+            "id": localStorage.getItem('id')
+        });
+
+        let config = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: 'http://127.0.0.1:5000/get_strategies',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: data
+        };
+
+        axios.request(config)
+            .then((response) => {
+                console.log("result", JSON.stringify(response.data.data.array));
+                setsavedstrategies(response.data.data.array)
+                console.log(savedstrategies)
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+
+    const onHandleUpdateStrategies = () => {
+        setshowupdatestrategy(false);
+        const index = activeindex[0];
+        const inputdata = {
+            "name": strategyName, "array": [leg, lotarray1, legarray, darray, dIncrement,
+                dIncrementarray, t, tarray, intraday,
+                tradesymbol, gap, stoplosslower, stoplossupper, stoplosssteps,
+                maxprofitupper, maxprofitlower, maxprofitsteps,
+                halt, investment, starttime, endtime, startdate, enddate, firstexpirydate,
+                expiryFixed, incrementexpiry, fixedRate, rate,
+                timeGroups, startTimeArray, endTimeArray, foldername, atm]
+        }
+        const data = { "id": localStorage.getItem('id'), "index": index, "array": inputdata }
+        console.log("update data", data)
+        let config = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: 'http://127.0.0.1:5000/update/oldstrategies',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: data
+        };
+
+        axios.request(config)
+            .then((response) => {
+                console.log(JSON.stringify(response.data));
+                const input = [...savedstrategies];
+                input[index] = inputdata;
+                setsavedstrategies(input);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
+    }
+    const onHandleDeleteStrategies = () => {
+        const index = activeindex[0]
+        const inputdata = [...savedstrategies]
+        inputdata.splice(index, 1);
+        setsavedstrategies(inputdata);
+        setTimeout(() => {
+            const data = { "id": localStorage.getItem('id'), "array": savedstrategies}
+            let config = {
+                method: 'post',
+                maxBodyLength: Infinity,
+                url: 'http://127.0.0.1:5000/update/strategiesarray',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                data: data
+            };
+    
+            axios.request(config)
+                .then((response) => {
+                    console.log(JSON.stringify(response.data));
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }, 2000);
+       
+    }
     const onhandlesubmit = async (e) => {
         e.preventDefault();
         setloader(true);
@@ -138,7 +301,7 @@ const BacktestVersion3 = () => {
             maxprofitupper, maxprofitlower, maxprofitsteps,
             halt, investment, starttime, endtime, startdate, enddate, firstexpirydate,
             expiryFixed, incrementexpiry, fixedRate, rate,
-            timeGroups, startTimeArray, endTimeArray, foldername, point
+            timeGroups, startTimeArray, endTimeArray, foldername
         };
 
         console.log(data);
@@ -191,7 +354,8 @@ const BacktestVersion3 = () => {
             setdarray(Array(parseInt(leg)).fill("100"))
             setlotarray1(Array(parseInt(leg)).fill(100));
         }
-    }, [leg]);
+    }, []);
+
 
     useEffect(() => {
         if (t === "") {
@@ -210,6 +374,19 @@ const BacktestVersion3 = () => {
         }
     }, [timeGroups])
 
+    const addleg = () => {
+        setleg(parseInt(leg) + 1)
+        setlegarray([...legarray, "SC"]);
+        setlotarray([...lotarray, 1]);
+        setfirstexpirydate([...firstexpirydate, enddate])
+        setExpiryfixed([...expiryFixed, "No"])
+        setincrementexpriy([...incrementexpiry, "7"])
+        setatm([...atm, "ATM"])
+        setpoint([...point, "true"])
+        setdincrementarray([...dIncrementarray, "100"])
+        setdarray([...darray, "100"])
+        setlotarray1([...lotarray1, 100]);
+    }
     const handleSymbol = async () => {
         let config = {
             method: 'get',
@@ -231,49 +408,73 @@ const BacktestVersion3 = () => {
     }, [])
 
     useEffect(() => {
-        if (strategies === 'shortstraddle') {
+        if (strategies === 'Short Straddle') {
             setlegarray(["SP", "SC"]);
             setatm(["ATM", "ATM"])
             setincrementexpriy(['7', '7'])
             setfirstexpirydate(Array(parseInt(leg)).fill(enddate))
             setdarray(["100", "100"]);
             setlotarray([1, 1]);
-        } else if (strategies === 'longstraddle') {
+            setExpiryfixed(['Yes', 'Yes'])
+        } else if (strategies === 'Long Straddle') {
             setlegarray(["BP", "BC"]);
             setatm(["ATM", "ATM"])
             setincrementexpriy(['7', '7'])
             setfirstexpirydate(Array(parseInt(leg)).fill(enddate))
             setdarray(["100", "100"]);
             setlotarray([1, 1]);
-        } else if (strategies === 'shortstrangle') {
+            setExpiryfixed(['Yes', 'Yes'])
+        } else if (strategies === 'Short Strangle') {
             setlegarray(["SP", "SC"]);
             setatm(["ATM-200", "ATM+200"])
             setincrementexpriy(['7', '7'])
             setfirstexpirydate(Array(parseInt(leg)).fill(enddate))
             setdarray(["100", "100"]);
             setlotarray([1, 1]);
-        } else if (strategies === 'longstrangle') {
+            setExpiryfixed(['Yes', 'Yes'])
+
+        } else if (strategies === 'Long Strangle') {
             setlegarray(["BC", "BP"]);
             setatm(["ATM-200", "ATM+200"])
             setincrementexpriy(['7', '7'])
             setfirstexpirydate(Array(parseInt(leg)).fill(enddate))
             setdarray(["100", "100"]);
             setlotarray([1, 1]);
-        } else if (strategies === 'ironbutterfly') {
+            setExpiryfixed(['Yes', 'Yes'])
+        } else if (strategies === 'Iron Butterfly') {
             setlegarray(['BP', 'SC', 'SP', 'BC']);
             setincrementexpriy(['7', '7', '7', '7'])
             setatm(["ATM-200", "ATM", "ATM", "ATM+200"])
             setfirstexpirydate(Array(parseInt(leg)).fill(enddate))
             setdarray(["100", "100", "100", "100"]);
             setlotarray([1, 1, 1, 1]);
-        } else if (strategies === 'ironcondors') {
+            setExpiryfixed(['Yes', 'Yes', 'Yes', 'Yes'])
+        } else if (strategies === 'Iron Condor') {
             setlegarray(["BP", "SP", "SC", "BC"]);
             setatm(["ATM-200", "ATM-100", "ATM+100", "ATM+200"])
             setincrementexpriy(['7', '7', '7', '7'])
             setfirstexpirydate(Array(parseInt(leg)).fill(enddate))
             setdarray(["100", "100", "100", "100"]);
             setlotarray1([1, 1, 1, 1]);
-        } else {
+            setExpiryfixed(['Yes', 'Yes', 'Yes', 'Yes'])
+        } else if (strategies === 'Short ATM +/-1%') {
+            setlegarray(["SC", "SP"]);
+            setatm(["ATM+1%", "ATM-1%"])
+            setincrementexpriy(['7', '7'])
+            setfirstexpirydate(Array(parseInt(leg)).fill(enddate))
+            setdarray(["100", "100"]);
+            setlotarray1([1, 1]);
+            setExpiryfixed(['Yes', 'Yes'])
+        } else if (strategies === 'Short CP 100') {
+            setlegarray(["SC", "SP"]);
+            setatm(["ATM+1%", "ATM-1%"])
+            setincrementexpriy(['7', '7'])
+            setfirstexpirydate(Array(parseInt(leg)).fill(enddate))
+            setdarray(["100", "100"]);
+            setlotarray1([1, 1]);
+            setExpiryfixed(['Yes', 'Yes'])
+        }
+        else {
             setlegarray(["BP"]);
             setatm(["ATM-200"])
             setincrementexpriy(['7'])
@@ -288,30 +489,31 @@ const BacktestVersion3 = () => {
         if (localStorage.getItem('isAuthenticate') === "false")
             navigate('/login')
     })
-    
+
     return (
         <div className='flex flex-row mb-10 text-black'>
             <div className="" style={{ backgroundColor: "white", width: "16%" }}>
                 <Link to='/'><img src={logo} alt="logo" className="p-3" /></Link>
-                <div className="p-6 mt-10 hover:bg-[#e9effa] rounded" onClick={() => { setleg(2); setStrategies("shortstraddle") }}><ShortcutIcon /> Short Straddle</div>
-                <div className="p-6  hover:bg-[#e9effa] rounded" onClick={() => { setleg(2); setStrategies("longstraddle") }}><CompareArrowsIcon />  Long Straddle</div>
-                <div className="p-6  hover:bg-[#e9effa] rounded" onClick={() => { setleg(2); setStrategies("shortstrangle") }}><ShortcutIcon />  Short Strangle</div>
-                <div className="p-6  hover:bg-[#e9effa] rounded" onClick={() => { setleg(2); setStrategies("longstrangle") }}><CompareArrowsIcon />  Long Strangle</div>
-                <div className="p-6  hover:bg-[#e9effa] rounded" onClick={() => { setleg(4); setStrategies("ironbutterfly") }}><GamepadIcon /> Iron Butterfly</div>
-                <div className="p-6  hover:bg-[#e9effa] rounded" onClick={() => { setleg(4); setStrategies("ironcondors") }}><AcUnitIcon />  Iron Condor</div>
-                <div className="p-6 hover:bg-[#e9effa] rounded" onClick={() => { setleg(4); setStrategies("shortatm") }}><GamepadIcon />  Short ATM +/-1%</div>
-                <div className="p-6  hover:bg-[#e9effa] rounded" onClick={() => { setleg(4); setStrategies("shortcp") }}><PixIcon />  Short CP 100</div>
-                <div className="p-6  hover:bg-[#e9effa] rounded" onClick={() => { setleg(4); setStrategies("shortcpsp") }}><GamepadIcon />  Short CP As 25%SP</div>
-                <div className="p-6  hover:bg-[#e9effa] rounded" onClick={() => { setleg(4); setStrategies("expirydaystrategies") }}><AcUnitIcon />  Expiry Day Strategy</div>
-                <div className="p-6 hover:bg-[#e9effa] rounded bg-blue-400 mt-10">Saved Strategies</div>
+                <div className="p-6 mt-10 hover:bg-[#e9effa] rounded" onClick={() => { setleg(2); setStrategies("Short Straddle"); setactiveindex("1") }} style={{ backgroundColor: activeindex === "1" ? '#e9effa' : 'white' }}><ShortcutIcon /> Short Straddle</div>
+                <div className="p-6  hover:bg-[#e9effa] rounded" onClick={() => { setleg(2); setStrategies("Long Straddle"); setactiveindex("2") }} style={{ backgroundColor: activeindex === "2" ? '#e9effa' : 'white' }}><CompareArrowsIcon />  Long Straddle</div>
+                <div className="p-6  hover:bg-[#e9effa] rounded" onClick={() => { setleg(2); setStrategies("Short Strangle"); setactiveindex("3") }} style={{ backgroundColor: activeindex === "3" ? '#e9effa' : 'white' }}><ShortcutIcon />  Short Strangle</div>
+                <div className="p-6  hover:bg-[#e9effa] rounded" onClick={() => { setleg(2); setStrategies("Long Strangle"); setactiveindex("4") }} style={{ backgroundColor: activeindex === "4" ? '#e9effa' : 'white' }}><CompareArrowsIcon />  Long Strangle</div>
+                <div className="p-6  hover:bg-[#e9effa] rounded" onClick={() => { setleg(4); setStrategies("Iron Butterfly"); setactiveindex("5") }} style={{ backgroundColor: activeindex === "5" ? '#e9effa' : 'white' }}><GamepadIcon /> Iron Butterfly</div>
+                <div className="p-6  hover:bg-[#e9effa] rounded" onClick={() => { setleg(4); setStrategies("Iron Condor"); setactiveindex("6") }} style={{ backgroundColor: activeindex === "6" ? '#e9effa' : 'white' }}><AcUnitIcon />  Iron Condor</div>
+                <div className="p-6 hover:bg-[#e9effa] rounded" onClick={() => { setleg(2); setStrategies("Short ATM +/-1%"); setactiveindex("7") }} style={{ backgroundColor: activeindex === "7" ? '#e9effa' : 'white' }}><GamepadIcon />  Short ATM +/-1%</div>
+                <div className="p-6  hover:bg-[#e9effa] rounded" onClick={() => { setleg(2); setStrategies("Short CP 100"); setactiveindex("8") }} style={{ backgroundColor: activeindex === "8" ? '#e9effa' : 'white' }}><PixIcon />  Short CP 100</div>
+                <div className="p-6  hover:bg-[#e9effa] rounded" onClick={() => { setleg(1); setStrategies("Short CP As 25%SP"); setactiveindex("9") }} style={{ backgroundColor: activeindex === "9" ? '#e9effa' : 'white' }}><GamepadIcon />  Short CP As 25%SP</div>
+                <div className="p-6  hover:bg-[#e9effa] rounded" onClick={() => { setleg(1); setStrategies("Expiry Day Strategy"); setactiveindex("10") }} style={{ backgroundColor: activeindex === "10" ? '#e9effa' : 'white' }}><AcUnitIcon />  Expiry Day Strategy</div>
+                <div className="p-6 hover:bg-[#e9effa] rounded mt-10" style={{ backgroundColor: "blue" }}>Saved Strategies</div>
                 {
                     savedstrategies.map((item, key) => {
+                        console.log("activeindex", activeindex)
                         return (
-                            <div className="p-6  hover:bg-[#e9effa] rounded"><AcUnitIcon />{item}</div>
+                            <div className="p-6  hover:bg-[#e9effa] rounded" onClick={() => { setactiveindex(key + "1"); onshowstrategies(item.array) }} style={{ backgroundColor: activeindex === key + "1" ? '#e9effa' : 'white' }}><AcUnitIcon />{item.name}</div>
                         )
                     })
                 }
-                <div className="p-6  hover:bg-[#e9effa] rounded mt-60" onClick={handlelogout}><LogoutIcon sx={{ marginRight: "10px" }} />Logout</div>
+                <div className="p-6  hover:bg-[#e9effa] rounded mt-32" onClick={handlelogout}><LogoutIcon sx={{ marginRight: "10px" }} />Logout</div>
             </div>
             <div className="font-bold" style={{ backgroundColor: "#e9effa", color: "#98979b", width: "84%" }}>
                 <NavbarVersion2 />
@@ -386,10 +588,10 @@ const BacktestVersion3 = () => {
                             Expiry Fixed
                         </div>
                         <div className="grid grid-cols-2 text-center justify-center mt-2 ml-10 mr-10 w-36  rounded-xl">
-                            <div style={{ color: expiryfixedy, borderColor: expiryfixedy }} className="rounded-l-xl h-8 border-solid border-2" onClick={() => { setexpiryfixedn(""); setexpiryfixedy("black"); expiryfixedy === 'black' ? setExpiryfixed("Yes") : setExpiryfixed("No") }}>
+                            <div style={{ color: expiryfixedy, borderColor: expiryfixedy }} className="rounded-l-xl h-8 border-solid border-2" onClick={() => { setexpiryfixedn(""); setexpiryfixedy("black"); expiryfixedy === 'black' ? setExpiryfixed(Array(parseInt(leg)).fill("Yes")) : setExpiryfixed(Array(parseInt(leg)).fill("No")) }}>
                                 Yes
                             </div>
-                            <div style={{ color: expiryfixedn, borderColor: expiryfixedn }} className="rounded-r-xl h-8 border-solid border-2" onClick={() => { setexpiryfixedy(""); setexpiryfixedn("black"); expiryfixedy === 'black' ? setExpiryfixed("No") : setExpiryfixed("Yes") }}>
+                            <div style={{ color: expiryfixedn, borderColor: expiryfixedn }} className="rounded-r-xl h-8 border-solid border-2" onClick={() => { setexpiryfixedy(""); setexpiryfixedn("black"); expiryfixedy === 'black' ? setExpiryfixed(Array(parseInt(leg)).fill("No")) : setExpiryfixed(Array(parseInt(leg)).fill("Yes")) }}>
                                 No
                             </div>
                         </div>
@@ -399,14 +601,12 @@ const BacktestVersion3 = () => {
                             value of T
                         </div>
                         <input type="text" className="h-8 mt-2 ml-10 mr-10 bg-inherit outline-0 border-black w-36 text-center border-solid rounded-xl border-2 " value={t} onChange={(e) => { sett(e.target.value); }}></input>
-
                     </div>
                     <div className="flex flex-col ">
                         <div className="mt-3 text-center font-normal">
                             Investment
                         </div>
                         <input type="text" className="h-8 mt-2 ml-10 mr-10 bg-inherit outline-0 border-black w-36 text-center border-solid rounded-xl border-2 " value={investment} onChange={(e) => { setinvestment(e.target.value); }}></input>
-
                     </div>
 
                     <div className="flex flex-col ">
@@ -489,9 +689,9 @@ const BacktestVersion3 = () => {
                     <hr className="bg-white mb-2"></hr>
                     <div className="grid grid-cols-6 max-md:grid-cols-2 max-md:mb-2">
                         <label className=" inline-block mr-10 font-normal" style={{ fontSize: "15px", fontFamily: "Arial, Helvetica, sans-serif" }}>MaxProfit lower limit:</label>
-                        <input type="text" className="h-8  bg-inherit outline-0 border-black w-36 mr-3 text-center border-solid rounded-xl border-2 max-md:mb-1" value={maxprofitupper} onChange={(e) => { setmaxprofitupper(e.target.value) }} ></input>
-                        <label className=" inline-block mr-10 font-normal" style={{ fontSize: "15px", fontFamily: "Arial, Helvetica, sans-serif" }}>MaxProfit upper limit:</label>
                         <input type="text" className="h-8  bg-inherit outline-0 border-black w-36 mr-3 text-center border-solid rounded-xl border-2 max-md:mb-1" value={maxprofitlower} onChange={(e) => { setmaxprofitlower(e.target.value) }} ></input>
+                        <label className=" inline-block mr-10 font-normal" style={{ fontSize: "15px", fontFamily: "Arial, Helvetica, sans-serif" }}>MaxProfit upper limit:</label>
+                        <input type="text" className="h-8  bg-inherit outline-0 border-black w-36 mr-3 text-center border-solid rounded-xl border-2 max-md:mb-1" value={maxprofitupper} onChange={(e) => { setmaxprofitupper(e.target.value) }} ></input>
                         <label className=" inline-block mr-10 font-normal" style={{ fontSize: "15px", fontFamily: "Arial, Helvetica, sans-serif" }}>MaxProfit Steps size:</label>
                         <input type="text" className="h-8  bg-inherit outline-0 border-black w-36 text-center border-solid rounded-xl border-2 " value={maxprofitsteps} onChange={(e) => { setmaxprofitsteps(e.target.value) }}  ></input>
                     </div>
@@ -505,7 +705,7 @@ const BacktestVersion3 = () => {
                             return (
                                 <div className="flex flex-row" value={key}>
                                     <div className="font-normal mr-5">{key + 1}.</div>
-                                    <input type="text" className="h-8  bg-inherit outline-0 border-black w-36 mr-3 text-center border-solid rounded-xl border-2 max-md:mb-1" value={maxprofitupper} onChange={(e) => {
+                                    <input type="text" className="h-8  bg-inherit outline-0 border-black w-36 mr-3 text-center border-solid rounded-xl border-2 max-md:mb-1" value={t[key]} onChange={(e) => {
                                         const inputdata = [...tarray]
                                         inputdata[key] = e.target.value;
                                         settarray(inputdata);
@@ -532,26 +732,7 @@ const BacktestVersion3 = () => {
                         })
                     }
                 </div>
-                {/* Here,we are handling add leg by one and save strategy name */}
-                <div className="flex flex-row text-center">
-                    <Button variant="contained" sx={{ margin: "16px" }} onClick={() => { setleg(parseInt(leg) + 1); }}>Add Leg</Button>
-                    <Button variant="contained" sx={{ margin: "16px" }} onClick={() => { setshowstrategy(true)}}>Save Strategy</Button>
-                    {
-                        showstrategy && <Dialog open={showstrategy} onClose={() => setshowstrategy(false)} sx={{borderRadius:"10px" }}>
-                             <div className="bg-blue-500 text-center justify-center">Strategy Name</div>
-                            <input type="text" placeholder="Strategy Name" value={strategyName} onChange={(e)=>{setstrategyName(e.target.value)}} className="text-center justify-center m-10 rounded-md h-12 border-2"></input>
-                            <div className="grid grid-cols-2">
-                                <Button variant="contained" onClick={()=>{setshowstrategy(false)}} sx={{margin:"10px"}}>Cancel</Button>
-                                <Button variant="contained" onClick={()=>{ const inputdata = [...savedstrategies]
-                        inputdata.push(strategyName)
-                        setsavedstrategies(inputdata)
-                        setstrategyName("")
-                        setshowstrategy(false)}} sx={{margin:"10px"}}>Ok</Button>
-                            </div>
-                        </Dialog>
-                    }
-                    <Button variant="contained" sx={{ margin: "16px" }}>Remove Strategy</Button>
-                </div>
+
                 {/* Here ,All Properties of leg and Handle it */}
                 <h3 className="text-center mt-5 text-black">{strategies}</h3>
                 {
@@ -664,7 +845,39 @@ const BacktestVersion3 = () => {
                                             <MenuItem className="text-black" value="14">14</MenuItem>
                                             <MenuItem className="text-black" value="21">21</MenuItem>
                                             <MenuItem className="text-black" value="28">28</MenuItem>
-                                        </Select>                        </div>
+                                        </Select>
+                                    </div>
+                                    {
+                                        strategies === 'Short CP 100' && <div className="flex flex-col">
+                                            <div className="mt-5 ml-5 text-center font-normal">
+                                                Closest Premium
+                                            </div>
+                                            <div className="flex flex-row">
+                                                <Select
+                                                    value="equal"
+                                                    className="h-8 mt-2 ml-10 border-black  text-center border-solid border-2 bg-inherit  w-28"
+                                                    style={{ borderTopLeftRadius: "0.75rem", borderBottomLeftRadius: "0.75rem" }}
+                                                >
+                                                    <MenuItem className="text-black" value="equal">CP ~</MenuItem>
+                                                    <MenuItem className="text-black" value="less">CP {"<"}= </MenuItem>
+                                                    <MenuItem className="text-black" value="more">CP {">"}= </MenuItem>
+
+                                                </Select>
+                                                <Select
+                                                    value="25"
+                                                    className="h-8 mt-2 border-black  text-center border-solid border-2 bg-inherit  w-20"
+                                                    style={{ borderTopRightRadius: "0.75rem", borderBottomRightRadius: "0.75rem" }}
+                                                >
+                                                    <MenuItem className="text-black" value="25">25</MenuItem>
+                                                    <MenuItem className="text-black" value="25">50</MenuItem>
+                                                    <MenuItem className="text-black" value="25">100</MenuItem>
+                                                    <MenuItem className="text-black" value="25">150</MenuItem>
+                                                    <MenuItem className="text-black" value="25">200</MenuItem>
+
+                                                </Select>
+                                            </div>
+                                        </div>
+                                    }
                                 </div>
                             </div>
                         )
@@ -673,7 +886,7 @@ const BacktestVersion3 = () => {
                 <h3 className="text-center text-black">No. of Time Groups</h3>
                 <div className="ml-5 mt-2 mb-10 bg-white p-5 rounded-xl mr-5 grid grid-cols-2">
 
-                    <div className="grid grid-cols-1 gap-1 overflow-x-hidden overflow-y-auto h-10 mr-4 max-md:mb-1">
+                    <div className="grid grid-cols-1 gap-1 mr-4 max-md:mb-1">
                         {
                             startTimeArray.map((item, key) => {
                                 return (
@@ -691,7 +904,7 @@ const BacktestVersion3 = () => {
 
                         }
                     </div>
-                    <div className="grid grid-cols-1 gap-1 overflow-x-hidden overflow-y-auto h-10 mr-4  max-md:mb-1 ">
+                    <div className="grid grid-cols-1 gap-1  mr-4  max-md:mb-1 ">
                         {
                             endTimeArray.map((item, key) => {
                                 return (
@@ -709,9 +922,42 @@ const BacktestVersion3 = () => {
                         }
                     </div>
                 </div>
-                {/* Loader is run till the time taken by backtesting */}
-                {!loader && <Button variant="contained" value="Backtest" sx={{ marginLeft: "500px", marginBottom: "20px" }} onClick={onhandlesubmit}>Backtest</Button>}
-                {loader && <Loader />}
+                {/* Here,we are handling add leg by one and save strategy name */}
+                <div className="flex justify-center text-center">
+                    <Button variant="contained" sx={{ margin: "16px" }} onClick={addleg}>Add Leg</Button>
+                    <Button variant="contained" sx={{ margin: "16px" }} onClick={() => { setshowstrategy(true) }}>Save Strategy</Button>
+                    {
+                        showstrategy && <Dialog open={showstrategy} onClose={() => setshowstrategy(false)} sx={{ borderRadius: "10px" }}>
+                            <div className="bg-blue-500 text-center justify-center p-5">Save this Strategy</div>
+                            <input type="text" placeholder="Strategy Name" value={strategyName} onChange={(e) => { setstrategyName(e.target.value) }} className="text-center justify-center m-10 rounded-md h-12 border-2"></input>
+                            <div className="grid grid-cols-2">
+                                <Button variant="contained" onClick={() => { setshowstrategy(false) }} sx={{ margin: "10px" }}>Cancel</Button>
+                                <Button variant="contained" onClick={onHandleStrategies} sx={{ margin: "10px" }}>Ok</Button>
+                            </div>
+
+                        </Dialog>
+                    }
+                    {
+                        activeindex.length === 2 && <Button variant="contained" sx={{ margin: "16px" }} onClick={() => { setshowupdatestrategy(true) }}>Update Strategy</Button>
+                    }
+                    {
+                        activeindex.length === 2 && <Button variant="contained" sx={{ margin: "16px" }} onClick={onHandleDeleteStrategies}>Remove Strategy</Button>
+                    }
+                    {
+                        activeindex.length === 2 && showupdatestrategy && <Dialog open={showupdatestrategy} onClose={() => setshowupdatestrategy(false)} sx={{ borderRadius: "10px" }}>
+                            <input type="text" placeholder="Strategy Name" value={strategyName} onChange={(e) => { setstrategyName(e.target.value) }} className="text-center justify-center m-10 rounded-md h-12 border-2"></input>
+                            <div className="grid grid-cols-2">
+                                <Button variant="contained" onClick={() => { setshowupdatestrategy(false) }} sx={{ margin: "10px" }}>Cancel</Button>
+                                <Button variant="contained" onClick={onHandleUpdateStrategies} sx={{ margin: "10px" }}>Update</Button>
+                            </div>
+                        </Dialog>
+                    }
+
+                    {/* Loader is run till the time taken by backtesting */}
+                    {!loader && <Button variant="contained" value="Backtest" sx={{ margin: "16px" }} onClick={onhandlesubmit}>Backtest</Button>}
+                    {loader && <Loader />}
+                </div>
+
                 {/* Result will show when your backtesting donw */}
                 {show && <Result a={a} b={b} c={c} d={d} e={e} f={f} g={g} h={h} i={i} />}
             </div>
