@@ -59,57 +59,65 @@ const UpdateProfile = (props) => {
   },[])
 
     return (
-        <div className="flex flex-col m-10">
-            <div className="text-[#3F4547] text-3xl font-bold text-center mt-10">
+      <div className="flex flex-col m-10">
+      <div className="text-[#3F4547] text-3xl font-bold text-center mt-2">
                 <h1>Update Profile</h1>
             </div>
-            <div className="flex text-center justify-center">
             <div className="flex flex-col">
+            <label className="mt-5 text-[#494949]">UserName</label>
             <input
                 type="text"
                 placeholder="Enter Your Name"
-                className="mt-5 outline-0 h-14 w-96 border border-[gray] pl-4 rounded-sm" value={name} onChange={(e) => {
+                className="mt-1 outline-0 h-14 w-96 border border-[#1565D8] pl-4 rounded-sm" value={name} onChange={(e) => {
                     setname(e.target.value);
                 }}
+                style={{ width: '526px' }}
             />
+            <label className="mt-5 text-[#494949]">Contact Number</label>
             <input
                 type="text"
                 placeholder="Enter Mobile Number"
-                className="mt-5 outline-0 h-14 w-96 border border-[gray] pl-4 rounded-sm" value={contact} onChange={(e) => {
+                className="mt-1 outline-0 h-14 w-96 border border-[#1565D8] pl-4 rounded-sm" value={contact} onChange={(e) => {
                     setcontact(e.target.value);
                 }}
+                style={{ width: '526px' }}
             />
+            <label className="mt-5 text-[#494949]">Current Address</label>
             <input
                 type="text"
                 placeholder="Enter Your Current Location Address"
-                className="mt-5 outline-0 h-14 w-96 border border-[gray] pl-4 rounded-sm" value={address} onChange={(e) => {
+                className="mt-1 outline-0 h-14 w-96 border border-[#1565D8] pl-4 rounded-sm" value={address} onChange={(e) => {
                     setaddress(e.target.value);
                 }}
+                style={{ width: '526px' }}
             />
+            <label className="mt-1 text-[#494949]">Gender</label>
             <input
                 type="text"
                 placeholder="Enter Your Gender"
-                className="mt-5 outline-0 h-14 w-96 border border-[gray] pl-4 rounded-sm"
+                className="mt-1 outline-0 h-14 w-96 border border-[#1565D8] pl-4 rounded-sm"
                 value={gender}
                 onChange={(e) => {
                     setgender(e.target.value);
                 }}
+                style={{ width: '526px' }}
             />
+            <label className="mt-5 text-[#494949]">Broker Name</label>
+
             <input
                 type="text"
                 placeholder="Enter Your Broker Name"
-                className="mt-5 outline-0 h-14 w-96 border border-[gray] pl-4 rounded-sm"
+                className="mt-1 outline-0 h-14 w-96 border border-[#1565D8] pl-4 rounded-sm"
                 value={broker}
                 onChange={(e) => {
                     setbroker(e.target.value);
                 }}
+                style={{ width: '526px' }}
             />
-
-            <button className="text-[white] bg-[#0369a8] h-14  text rounded-md mt-10 font-bold mb-10" onClick={handlesubmit
+            <button className="text-[white] bg-[#2C73EB] h-14 text rounded-md mt-4  font-bold" style={{ width: '526px' }} onClick={handlesubmit
             }>
-                Update Change Data
+                Update Profile
             </button>
-            </div>
             </div>
         </div>
     )

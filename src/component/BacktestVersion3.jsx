@@ -923,7 +923,7 @@ const BacktestVersion3 = () => {
                     </div>
                 </div>
                 {/* Here,we are handling add leg by one and save strategy name */}
-                <div className="flex justify-center text-center">
+                <div className="flex flex-row justify-center text-center">
                     <Button variant="contained" sx={{ margin: "16px" }} onClick={addleg}>Add Leg</Button>
                     <Button variant="contained" sx={{ margin: "16px" }} onClick={() => { setshowstrategy(true) }}>Save Strategy</Button>
                     {

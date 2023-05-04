@@ -52,7 +52,17 @@ const Result = (props) => {
             pdf.save('backtest.pdf')
         })
     }
-
+    
+    function getRandomColor() {
+        // Generate a random number between 0 and 255 for each RGB component
+        const red = Math.floor(Math.random() * 256);
+        const green = Math.floor(Math.random() * 256);
+        const blue = Math.floor(Math.random() * 256);
+        
+        // Return the RGB color code in the format "rgb(red, green, blue)"
+        return `rgb(${red}, ${green}, ${blue})`;
+      }
+      
     return (
         <>
             {/* Box of Main Answer of Every Value */}
@@ -79,12 +89,12 @@ const Result = (props) => {
                     {
                         d.map((item, key) => {
                             return (
-                                <div className="border-4 border-black bg-white rounded">
-                                    <h1 className="text-center justify-center text-black">
+                                <div className="shadow pt-3 pb-3 rounded bg-white">
+                                    <h1 className="text-center justify-center text-black" style={{fontWeight:400,fontSize:"16px"}}>
                                         {item.a}
                                     </h1>
                                     <hr className="text-white m-2"></hr>
-                                    <h1 className="text-center justify-center text-blue-600">
+                                    <h1 className="text-center justify-center text-blue-600" style={{color:item.b>0?"green":"red"}}>
                                         {item.b}
                                     </h1>
                                 </div>
@@ -93,83 +103,82 @@ const Result = (props) => {
                     }
                 </div>
                 {/* inputs analysis */}
-                <div className="bg-[#e9effa] mt-10 overflow-y-none overflow-x-auto text-center justify-center ml-10 mr-10">
-                    <h3 className="text-center">Input Data Format</h3>
-                    <table className="border-4 border-solid border-black overflow-y-none overflow-x-auto">
-                        <thead className="border-4 border-solid border-black bg-zinc-600">
-                            <td className="border-2 border-solid border-collapse border-black p-2">Trade Symbol</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">Legs_info</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">T</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">D</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">D_Range</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">D_Incr</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">Quantity</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">StopLoss</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">Max_Profit</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">Start Date</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">Day_start_time</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">End_date</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">Day_End_Time</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">Intraday</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">Halt_on</td>
+                <div className="bg-white p-3 rounded-lg mt-10 overflow-y-none overflow-x-auto justify-center ml-10 mr-10">
+                    <h3 className="text-black" style={{fontWeight:"400",fontSize:"24px"}}>Input Data Format</h3>
+                    <hr></hr>
+                    <table className=" overflow-y-none overflow-x-auto">
+                        <thead className="text-black">
+                            <td className="p-2">Trade Symbol</td>
+                            <td className="p-2">Legs_info</td>
+                            <td className="p-2">T</td>
+                            <td className="p-2">D</td>
+                            <td className="p-2">D_Range</td>
+                            <td className="p-2">D_Incr</td>
+                            <td className="p-2">Quantity</td>
+                            <td className="p-2">StopLoss</td>
+                            <td className="p-2">Max_Profit</td>
+                            <td className="p-2">Start Date</td>
+                            <td className="p-2">Day_start_time</td>
+                            <td className="p-2">End_date</td>
+                            <td className="p-2">Day_End_Time</td>
+                            <td className="p-2">Intraday</td>
+                            <td className="p-2">Halt_on</td>
                         </thead>
                         <tbody>
-                            <tr className="border-4 border-solid border-black bg-white">
-                                <td className="border-2 border-solid border-collapse border-black p-2">{a[0]}</td>
-                                <td className="border-2 border-solid border-collapse border-black p-2">{a[1]}</td>
-                                <td className="border-2 border-solid border-collapse border-black p-2">{a[2]}</td>
-                                <td className="border-2 border-solid border-collapse border-black p-2">{a[3]}</td>
-                                <td className="border-2 border-solid border-collapse border-black p-2">{a[4]}</td>
-                                <td className="border-2 border-solid border-collapse border-black p-2">{a[5]}</td>
-                                <td className="border-2 border-solid border-collapse border-black p-2">{a[6]}</td>
-                                <td className="border-2 border-solid border-collapse border-black p-2">{a[7]}</td>
-                                <td className="border-2 border-solid border-collapse border-black p-2">{a[8]}</td>
-                                <td className="border-2 border-solid border-collapse border-black p-2">{a[9]}</td>
-                                <td className="border-2 border-solid border-collapse border-black p-2">{a[10]}</td>
-                                <td className="border-2 border-solid border-collapse border-black p-2">{a[11]}</td>
-                                <td className="border-2 border-solid border-collapse border-black p-2">{a[12]}</td>
-                                <td className="border-2 border-solid border-collapse border-black p-2">{a[13] ? "true" : "false"}</td>
-                                <td className="border-2 border-solid border-collapse border-black p-2">{a[14] ? "true" : "false"}</td>
+                            <tr className=" bg-white">
+                                <td className="p-2" style={{color:a[0]<0?"red":"green"}}>{a[0]}</td>
+                                <td className="p-2" style={{color:a[1]<0?"red":"green"}}>{a[1]}</td>
+                                <td className="p-2" style={{color:a[2]<0?"red":"green"}}>{a[2]}</td>
+                                <td className="p-2" style={{color:a[3]<0?"red":"green"}}>{a[3]}</td>
+                                <td className="p-2" style={{color:a[4]<0?"red":"green"}}>{a[4]}</td>
+                                <td className="p-2" style={{color:a[5]<0?"red":"green"}}>{a[5]}</td>
+                                <td className="p-2" style={{color:a[6]<0?"red":"green"}}>{a[6]}</td>
+                                <td className="p-2" style={{color:a[7]<0?"red":"green"}}>{a[7]}</td>
+                                <td className="p-2" style={{color:a[8]<0?"red":"green"}}>{a[8]}</td>
+                                <td className="p-2" style={{color:a[9]<0?"red":"green"}}>{a[9]}</td>
+                                <td className="p-2" style={{color:a[10]<0?"red":"green"}}>{a[10]}</td>
+                                <td className="p-2" style={{color:a[11]<0?"red":"green"}}>{a[11]}</td>
+                                <td className="p-2" style={{color:a[12]<0?"red":"green"}}>{a[12]}</td>
+                                <td className="p-2" style={{color:a[13]<0?"red":"green"}}>{a[13] ? "true" : "false"}</td>
+                                <td className="p-2" style={{color:a[14]<0?"red":"green"}}>{a[14] ? "true" : "false"}</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-
-
-
                 {/* timeGroup Profitability */}
-                <div className="bg-[#e9effa] mt-10 overflow-y-none overflow-x-auto text-center justify-center ml-10 mr-10">
-                    <h3 className="text-center">TimeGroup profitability</h3>
-                    <table className="border-4 border-solid border-black w-screen">
-                        <thead className="border-4 border-solid border-black bg-zinc-600">
-                            <td className="border-2 border-solid border-collapse border-black p-2">start_times</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">end_times</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">p&l</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">total_gross</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">trade_cnt</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">bull_trades</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">bull_gross</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">bull_p&l</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">bear_trades</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">bear_gross</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">bear_p&l</td>
+                <div className="bg-white p-3 rounded-lg mt-10 overflow-y-none overflow-x-auto justify-center ml-10 mr-10">
+                    <h3 className="text-black" style={{fontWeight:"400",fontSize:"24px"}}>TimeGroup profitability</h3>
+                    <hr></hr>
+                    <table className="w-screen">
+                        <thead className=" text-black">
+                            <td className="p-2">start_times</td>
+                            <td className="p-2">end_times</td>
+                            <td className="p-2">p&l</td>
+                            <td className="p-2">total_gross</td>
+                            <td className="p-2">trade_cnt</td>
+                            <td className="p-2">bull_trades</td>
+                            <td className="p-2">bull_gross</td>
+                            <td className="p-2">bull_p&l</td>
+                            <td className="p-2">bear_trades</td>
+                            <td className="p-2">bear_gross</td>
+                            <td className="p-2">bear_p&l</td>
                         </thead>
                         {
                             Array.isArray(c) && c.map((item, key) => {
                                 return (
                                     <tbody>
-                                        <tr className="border-4 border-solid border-black bg-white">
-                                            <td className="border-2 border-solid border-collapse border-black p-2">{item['start_times']}</td>
-                                            <td className="border-2 border-solid border-collapse border-black p-2">{item.end_times}</td>
-                                            <td className="border-2 border-solid border-collapse border-black p-2">{item['p&l']}</td>
-                                            <td className="border-2 border-solid border-collapse border-black p-2">{item.total_gross}</td>
-                                            <td className="border-2 border-solid border-collapse border-black p-2">{item.trade_cnt}</td>
-                                            <td className="border-2 border-solid border-collapse border-black p-2">{item.bull_trades}</td>
-                                            <td className="border-2 border-solid border-collapse border-black p-2">{item.bull_gross}</td>
-                                            <td className="border-2 border-solid border-collapse border-black p-2">{item['bull_p&l']}</td>
-                                            <td className="border-2 border-solid border-collapse border-black p-2">{item.bear_trades}</td>
-                                            <td className="border-2 border-solid border-collapse border-black p-2">{item.bear_gross}</td>
-                                            <td className="border-2 border-solid border-collapse border-black p-2">{item['bear_p&l']}</td>
+                                        <tr className=" bg-white">
+                                            <td className="p-2" style={{color:item['start_times']<0?"red":"green"}}>{item['start_times']}</td>
+                                            <td className="p-2" style={{color:item.end_times<0?"red":"green"}}>{item.end_times}</td>
+                                            <td className="p-2" style={{color:item['p&l']<0?"red":"green"}}>{item['p&l']}</td>
+                                            <td className="p-2" style={{color:item.total_gross<0?"red":"green"}}>{item.total_gross}</td>
+                                            <td className="p-2" style={{color:item.trade_cnt<0?"red":"green"}}>{item.trade_cnt}</td>
+                                            <td className="p-2" style={{color:item.bull_trades<0?"red":"green"}}>{item.bull_trades}</td>
+                                            <td className="p-2" style={{color:item.bull_gros<0?"red":"green"}}>{item.bull_gross}</td>
+                                            <td className="p-2" style={{color:item['bull_p&l']<0?"red":"green"}}>{item['bull_p&l']}</td>
+                                            <td className="p-2" style={{color:item.bear_trades<0?"red":"green"}}>{item.bear_trades}</td>
+                                            <td className="p-2" style={{color:item.bear_gross<0?"red":"green"}}>{item.bear_gross}</td>
+                                            <td className="p-2" style={{color:item['bear_p&l']<0?"red":"green"}}>{item['bear_p&l']}</td>
                                         </tr>
                                     </tbody>
 
@@ -180,56 +189,62 @@ const Result = (props) => {
 
                     </table>
                 </div>
-                <h1 className="text-center mt-20">Graph</h1>
                 {/* Graph make */}
-                <div className="grid grid-cols-2">
+                <div className="grid grid-cols-2 mt-10">
+                   <div className="bg-white shadow rounded-lg mt-0 m-10 flex flex-col">
+                    <label className="text-blue-500 mt-5 ml-5">Cumulative Graph</label>
                     <Graph a={x} b={y} />
+                    </div>
+                    <div className="bg-white shadow rounded-lg mt-0 m-10 flex flex-col">
+                    <label className="text-blue-500 mt-5 ml-5">Drawdown Graph</label>
                     <Graph1 a={x} b={z} />
+                    </div>
                 </div>
                 {/*Week Wise Profitability */}
-                <div className="bg-[#e9effa] mt-10 overflow-auto ml-10 mr-10">
-                    <h3 className="text-center">Week Wise Profitability</h3>
-                    <table className="border-4 border-solid border-black">
-                        <thead className="border-4 border-solid border-black bg-zinc-600">
-                            <td className="border-2 border-solid border-collapse border-black p-2">Week_No</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">bull_days</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">profit_bull_days</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">loss_bull_days</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">bull_gross_profit</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">bull_gross_loss</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">bull_net_profit</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">bull_net_loss</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">bull_pnl</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">bear_days</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">profit_bear_days</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">loss_bear_days</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">bear_gross_profit</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">bear_gross_loss</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">bear_net_profit</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">bear_net_loss</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">bear_pnl</td>
+                <div className="bg-white p-3 rounded-lg mt-10 ml-10 mr-10  overflow-auto">
+                    <h3 className="text-black" style={{fontWeight:"400",fontSize:"24px"}}>Week Wise Profitability</h3>
+                    <hr></hr>
+                    <table className="">
+                        <thead className="text-black">
+                            <td className="p-2">Week_No</td>
+                            <td className="p-2">bull_days</td>
+                            <td className="p-2">profit_bull_days</td>
+                            <td className="p-2">loss_bull_days</td>
+                            <td className="p-2">bull_gross_profit</td>
+                            <td className="p-2">bull_gross_loss</td>
+                            <td className="p-2">bull_net_profit</td>
+                            <td className="p-2">bull_net_loss</td>
+                            <td className="p-2">bull_pnl</td>
+                            <td className="p-2">bear_days</td>
+                            <td className="p-2">profit_bear_days</td>
+                            <td className="p-2">loss_bear_days</td>
+                            <td className="p-2">bear_gross_profit</td>
+                            <td className="p-2">bear_gross_loss</td>
+                            <td className="p-2">bear_net_profit</td>
+                            <td className="p-2">bear_net_loss</td>
+                            <td className="p-2">bear_pnl</td>
                         </thead>
                         {
                             Array.isArray(b) && b.map((item, key) => {
                                 return (
-                                    <tr className="border-4 border-solid border-black bg-white">
-                                        <td className="border-2 border-solid border-collapse border-black p-2">{item.week_no}</td>
-                                        <td className="border-2 border-solid border-collapse border-black p-2">{item.bull_days}</td>
-                                        <td className="border-2 border-solid border-collapse border-black p-2">{item.profit_bull_days}</td>
-                                        <td className="border-2 border-solid border-collapse border-black p-2">{item.loss_bull_days}</td>
-                                        <td className="border-2 border-solid border-collapse border-black p-2">{item.bull_gross_profit}</td>
-                                        <td className="border-2 border-solid border-collapse border-black p-2">{item.bull_gross_loss}</td>
-                                        <td className="border-2 border-solid border-collapse border-black p-2">{item.bull_net_profit}</td>
-                                        <td className="border-2 border-solid border-collapse border-black p-2">{item.bull_net_loss}</td>
-                                        <td className="border-2 border-solid border-collapse border-black p-2">{item.bull_pnl}</td>
-                                        <td className="border-2 border-solid border-collapse border-black p-2">{item.bear_days}</td>
-                                        <td className="border-2 border-solid border-collapse border-black p-2" >{item.profit_bear_days}</td>
-                                        <td className="border-2 border-solid border-collapse border-black p-2">{item.loss_bear_days}</td>
-                                        <td className="border-2 border-solid border-collapse border-black p-2">{item.bear_gross_profit}</td>
-                                        <td className="border-2 border-solid border-collapse border-black p-2">{item.bear_gross_loss}</td>
-                                        <td className="border-2 border-solid border-collapse border-black p-2">{item.bear_net_profit}</td>
-                                        <td className="border-2 border-solid border-collapse border-black p-2">{item.bear_net_loss}</td>
-                                        <td className="border-2 border-solid border-collapse border-black p-2">{item.bear_pnl}</td>
+                                    <tr className=" bg-white">
+                                        <td className="p-2" style={{color:item.week_no<0?"red":"green"}}>{item.week_no}</td>
+                                        <td className="p-2" style={{color:item.bull_days<0?"red":"green"}}>{item.bull_days}</td>
+                                        <td className="p-2" style={{color:item.profit_bull_days<0?"red":"green"}}>{item.profit_bull_days}</td>
+                                        <td className="p-2" style={{color:item.loss_bull_days<0?"red":"green"}}>{item.loss_bull_days}</td>
+                                        <td className="p-2" style={{color:item.bull_gross_profit<0?"red":"green"}}>{item.bull_gross_profit}</td>
+                                        <td className="p-2" style={{color:item.bull_gross_loss<0?"red":"green"}}>{item.bull_gross_loss}</td>
+                                        <td className="p-2" style={{color:item.bull_net_profit<0?"red":"green"}}>{item.bull_net_profit}</td>
+                                        <td className="p-2" style={{color:item.bull_net_loss<0?"red":"green"}}>{item.bull_net_loss}</td>
+                                        <td className="p-2" style={{color:item.bull_pnl<0?"red":"green"}}>{item.bull_pnl}</td>
+                                        <td className="p-2" style={{color:item.bear_days<0?"red":"green"}}>{item.bear_days}</td>
+                                        <td className="p-2" style={{color:item.profit_bear_days<0?"red":"green"}}>{item.profit_bear_days}</td>
+                                        <td className="p-2" style={{color:item.loss_bear_days<0?"red":"green"}}>{item.loss_bear_days}</td>
+                                        <td className="p-2" style={{color:item.bear_gross_profit<0?"red":"green"}}>{item.bear_gross_profit}</td>
+                                        <td className="p-2" style={{color:item.bear_gross_loss<0?"red":"green"}}>{item.bear_gross_loss}</td>
+                                        <td className="p-2" style={{color:item.bear_net_profit<0?"red":"green"}}>{item.bear_net_profit}</td>
+                                        <td className="p-2" style={{color:item.bear_net_loss<0?"red":"green"}}>{item.bear_net_loss}</td>
+                                        <td className="p-2" style={{color:item.bear_pnl<0?"red":"green"}}>{item.bear_pnl}</td>
                                     </tr>
                                 )
                             })
@@ -239,26 +254,27 @@ const Result = (props) => {
                     </table>
                 </div>
                 {/* Daily Period Analysis */}
-                <div className="bg-[#e9effa] mt-10 overflow-y-none overflow-x-auto text-center justify-center ml-10 mr-10">
-                    <h3 className="text-center">Daily Period Analysis</h3>
-                    <table className="border-4 border-solid border-black w-screen">
-                        <thead className="border-4 border-solid border-black bg-gray-600">
-                            <td className="border-2 border-solid border-collapse border-black p-2">Day</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">index</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">Net_Diff</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">Trade No</td>
-                            <td className="border-2 border-solid border-collapse border-black p-2">Count</td>
+                <div className="bg-white p-3 rounded mt-10 overflow-y-none overflow-x-auto  justify-center ml-10 mr-10">
+                    <h3 className="text-black" style={{fontWeight:"400",fontSize:"24px"}}>Daily Period Analysis</h3>
+                    <hr></hr>
+                    <table className=" w-screen">
+                        <thead className="text-black">
+                            <td className="p-2">Day</td>
+                            <td className="p-2">index</td>
+                            <td className="p-2">Net_Diff</td>
+                            <td className="p-2">Trade No</td>
+                            <td className="p-2">Count</td>
 
                         </thead>
                         {
                             Array.isArray(e) && e.map((item, key) => {
                                 return (
-                                    <tr className="border-4 border-solid border-black bg-white">
-                                        <td className="border-2 border-solid border-collapse border-black p-2">{item.Day}</td>
-                                        <td className="border-2 border-solid border-collapse border-black p-2">{item.index}</td>
-                                        <td className="border-2 border-solid border-collapse border-black p-2">{item['Net_diff']}</td>
-                                        <td className="border-2 border-solid border-collapse border-black p-2">{item['Trade No.']}</td>
-                                        <td className="border-2 border-solid border-collapse border-black p-2">{item['Count']}</td>
+                                    <tr className=" bg-white">
+                                        <td className="p-2" style={{color:item.Day<0?"red":"green"}}>{item.Day}</td>
+                                        <td className="p-2" style={{color:item.index<0?"red":"green"}}>{item.index}</td>
+                                        <td className="p-2" style={{color:item['Net_diff']<0?"red":"green"}}>{item['Net_diff']}</td>
+                                        <td className="p-2" style={{color:item['Trade No.']<0?"red":"green"}}>{item['Trade No.']}</td>
+                                        <td className="p-2" style={{color:item['Count']<0?"red":"green"}}>{item['Count']}</td>
                                     </tr>
 
                                 )
@@ -267,14 +283,15 @@ const Result = (props) => {
                     </table>
                 </div>
                 {/* List of trades */}
-                <div className="overflow-y-none overflow-x-auto text-center justify-center ml-10 mr-10 mb-10">
-                    <h1 className="text-center">List Of Trades</h1>
-                    <table className="border-4 border-solid border-black overflow-y-none overflow-x-auto">
+                <div className="bg-white p-3 mt-10 rounded-lg overflow-y-none overflow-x-auto justify-center ml-10 mr-10 mb-10">
+                    <h1 className="text-black" style={{fontWeight:"400",fontSize:"24px"}}>List Of Trades</h1>
+                    <hr></hr>
+                    <table className=" overflow-y-none overflow-x-auto">
                         {
 
-                            <thead className="border-2 border-solid border-black bg-gray-600" key={f[0]}>
+                            <thead className="text-black" key={f[0]}>
                                 {Object.keys(f[0]).map(key => (
-                                    <td className="border-2 border-solid border-collapse border-black p-2" key={key}>{key}</td>
+                                    <td className="p-2" key={key}>{key}</td>
                                 ))}
                             </thead>
                         }
@@ -282,10 +299,11 @@ const Result = (props) => {
                         {
                             Array.isArray(f) && f.map((item, index) => {
                                 return (
-                                    <tr className="border-2 border-solid border-black bg-white" key={item}>
+                                    <tr className=" bg-white" key={item}>
                                         {Object.keys(item).map(key => (
-                                            <td className="border-2 border-solid border-collapse border-black p-2" key={key}>{item[key]}</td>
+                                            <td className="p-2" key={key} style={{color:item[key]<0?"red":"green"}}>{item[key]}</td>
                                         ))}
+                                     
                                     </tr>
                                 )
                             })

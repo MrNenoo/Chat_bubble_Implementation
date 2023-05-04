@@ -38,24 +38,27 @@ const PasswordChanged = () => {
           <input
             type="password"
             placeholder="Enter Current Password"
-            className="mt-10 outline-0 h-14 w-96 border border-[gray] pl-4 rounded-sm" value={cpassword} onChange={(e) => {
+            className="mt-10 outline-0 h-14 w-96 border border-[#1565D8] pl-4 rounded-sm" value={cpassword} onChange={(e) => {
               setcpassword(e.target.value);
             }}
+            style={{ width: '526px' }}
+
           />
         </div>
         <div className="text-center">
           <input
             type="password"
             placeholder="Enter New Password"
-            className="mt-10 outline-0 h-14 w-96 border border-[gray] pl-4 rounded-sm"
+            className="mt-10 outline-0 h-14 w-96 border border-[#1565D8] pl-4 rounded-sm"
             value={password}
             onChange={(e) => {
               setpassword(e.target.value);
             }}
+            style={{ width: '526px' }}
           />
         </div>
         <div className="text-center">
-          <button className="text-[white] bg-[#0369a8] h-14 w-96 mb-10 text rounded-md mt-10 font-bold" onClick={handlesubmit}>
+          <button className="text-[white] bg-[#2C73EB] h-14 w-96 mb-10 text rounded-md mt-10 font-bold" style={{ width: '526px' }} onClick={handlesubmit}>
             Submit It
           </button>
         </div>
