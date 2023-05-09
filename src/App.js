@@ -7,7 +7,7 @@ import { BrowserRouter,Routes,Route } from 'react-router-dom'
 import ForgetPassword from './Forget_Password/ForgetPassword'
 import ProtectedRoute from './protected/ProtectedRoute'
 import Profile from './profile/Profile'
-
+import Chat from './Chat/Chat'
 
 const App = () => {
 
@@ -15,6 +15,7 @@ const App = () => {
     <div>
     <BrowserRouter>
       <Routes>
+        <Route component={Chat} />
         <Route exact path='/profile' element={<Profile/>}/>
         <Route exact path='/' element={<ProtectedRoute/>}/>
         <Route path='/login' exact element={<Login/>}/>
@@ -23,6 +24,7 @@ const App = () => {
         <Route path='/reset_password/:token' exact element={<ResetPassword/>}/>
       </Routes>
     </BrowserRouter>
+    <Chat/>
     </div>
   )
 }
