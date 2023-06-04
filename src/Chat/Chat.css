@@ -46,7 +46,7 @@
     border: none;
     background: #f1f1f1;
     resize: none;
-    min-height: 200px;
+    min-height: 20px;
   }
   .form-container textarea:focus {
     background-color: #ddd;
@@ -55,7 +55,7 @@
   
 
   .form-container .btn {
-    background-color: #04AA6D;
+    background-color: #0d6efd;
     color: white;
     padding: 16px 20px;
     border: none;
@@ -75,4 +75,38 @@
     opacity: 1;
   } 
     
-
+  .close-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+  }
+  
+  .close-icon svg {
+    fill: #000;
+  }
+  .bubble {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 999;
+  }
+  
+  .bubble .chat-icon {
+    font-size: 30px;
+    color: #fff;
+    background-color: #0d6efd;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+  }
+  
+  .bubble .chat-icon:hover {
+    background-color: #03794e;
+    
+  }
