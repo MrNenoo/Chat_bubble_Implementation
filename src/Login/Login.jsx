@@ -29,38 +29,30 @@ const Login = () => {
             alert("please enter correct email")
         else {
             console.log(data)
-            let config = {
-                method: 'post',
-                maxBodyLength: Infinity,
-                url: 'http://127.0.0.1:5000/login',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                data: data
-            };
-
-            axios.request(config)
+            const userData = { email, password }
+            axios
+                .post("http://localhost:5000/", userData)
                 .then((response) => {
-                    if (response.data.status === 401)
-                        alert(response.data.message)
-                    else {
-                        console.log(JSON.stringify(response.data));
-                        Cookies.set('token', response.data.token, { expires: 7 });
-                        localStorage.setItem('token', response.data.token);
-                        localStorage.setItem('name', response.data.name)
-                        localStorage.setItem('email', response.data.email)
-                        localStorage.setItem('id', response.data.id)
-                        localStorage.setItem('isAuthenticate', true)
-                        if (rememberMe) {
-                            localStorage.setItem('password', password);
-                            localStorage.setItem('rememberMe', true);
-                        } else {
-                            localStorage.removeItem('password');
-                            localStorage.removeItem('rememberMe');
-                        }
-                        setemail("")
-                        setpassword("")
-                        navigate('/')
+                    if (response.data.status === 401) {
+                      alert(response.data.message);
+                    } else {
+                      console.log(JSON.stringify(response.data));
+                      Cookies.set("token", response.data.token, { expires: 7 });
+                      localStorage.setItem("token", response.data.token);
+                      localStorage.setItem("name", response.data.name);
+                      localStorage.setItem("email", response.data.email);
+                      localStorage.setItem("id", response.data.id);
+                      localStorage.setItem("isAuthenticate", true);
+                      if (rememberMe) {
+                        localStorage.setItem("password", password);
+                        localStorage.setItem("rememberMe", true);
+                      } else {
+                        localStorage.removeItem("password");
+                        localStorage.removeItem("rememberMe");
+                      }
+                      setemail("");
+                      setpassword("");
+                      navigate("/");
                     }
                 })
                 .catch((error) => {
@@ -70,7 +62,7 @@ const Login = () => {
         }
     }
     useEffect(() => {
-
+        const token = Cookies.get("token");
         const storedEmail = localStorage.getItem('email');
         const storedPassword = localStorage.getItem('password');
         const storedRememberMe = localStorage.getItem('rememberMe');
@@ -81,7 +73,7 @@ const Login = () => {
             setRememberMe(true);
         }
         const res = localStorage.getItem('isAuthenticate')
-        if (res === "true")
+        if (token)
             navigate('/')
     }, []);
     return (
@@ -131,7 +123,7 @@ const Login = () => {
                         <button className="text-[white] bg-[#2C73EB] h-14 text rounded-md mt-10 ml-4 font-bold" style={{ width: '526px' }} onClick={handlesubmit} onKeyDown={(e) => {
                             if (e.keyCode === 13) { handlesubmit() }
                         }}>
-                            Register Account
+                            Login
                         </button>
                     </div>
                     <div className="flex flex-row mt-6 pl-6">
